@@ -4,18 +4,30 @@ public class FizzBuzzGameImpl implements FizzBuzzGame {
     @Override
     public String playGame(int number) {
 
-        if (number % 3 == 0 && number % 5 == 0) {
+        if (isMultipleOfThreeAndFive(number)) {
             return "FizzBuzz";
         }
 
-        if (number % 3 == 0) {
+        if (isMultipleOfThree(number)) {
             return "Fizz";
         }
 
-        if (number % 5 == 0) {
+        if (isMultipleOfFive(number)) {
             return "Buzz";
         }
 
         return "Fail";
+    }
+
+    private boolean isMultipleOfThree(int number) {
+        return number % 3 == 0;
+    }
+
+    private boolean isMultipleOfFive(int number) {
+        return number % 5 == 0;
+    }
+
+    private boolean isMultipleOfThreeAndFive(int number) {
+        return number % 15 == 0;
     }
 }
