@@ -11,15 +11,6 @@ public class User {
     private boolean isIllegalBannedUser;
     private double gold;
 
-    public void increaseIllegalBehaviorCnt() {
-        illegalBehaviorCnt++;
-        if (illegalBehaviorCnt == 3) isIllegalBannedUser = true;
-    }
-
-    public void clearIllegalBehaviorCnt() {
-        illegalBehaviorCnt = 0;
-    }
-
     public void increaseMoney(double earnGold) {
         gold += earnGold;
     }

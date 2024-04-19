@@ -1,17 +1,20 @@
 package com.example.study.lastStep;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.util.Assert;
 
 import java.time.LocalTime;
 
 @RequiredArgsConstructor
 public class LastStepFizzBuzzGameImpl implements LastStepFizzBuzzGame {
 
-    private static final LocalTime morningEventDateFrom = LocalTime.MAX;
-    private static final LocalTime morningEventDateTo = LocalTime.of(12, 0);
+    // 00:00 ~ 12:00
+    private static final LocalTime morningEventDateFrom = LocalTime.of(0, 0, 0, 0);
+    private static final LocalTime morningEventDateTo = LocalTime.of(12, 0, 0, 0);
 
-    private static final LocalTime eveningEventDateFrom = LocalTime.of(13, 0);
-    private static final LocalTime eveningEventDateTo = LocalTime.of(23, 0);
+    // 13:00 ~ 23:00
+    private static final LocalTime eveningEventDateFrom = LocalTime.of(13, 0, 0, 0);
+    private static final LocalTime eveningEventDateTo = LocalTime.of(23, 0, 0, 0);
 
     private static final double victoryGold = 500;
     private static final double looseGold = 200;
@@ -41,6 +44,8 @@ public class LastStepFizzBuzzGameImpl implements LastStepFizzBuzzGame {
         boolean isVictory = false;
 
         for (String userInput : userInputs) {
+            checkEnoughMoneyToPlayGame(player);
+
             if (isSuccess(generator.generateValue() * number, userInput)) {
                 isVictory = true;
                 player.increaseMoney(calculateEarnMoney(currentTime));
@@ -54,11 +59,13 @@ public class LastStepFizzBuzzGameImpl implements LastStepFizzBuzzGame {
     }
 
     private double calculateLoseMoney(LocalTime currentTime) {
-        if (morningEventDateFrom.isAfter(currentTime) || morningEventDateTo.isBefore(currentTime)) {
+        Assert.notNull(currentTime, "Current Time Cannot Be Null!");
+
+        if (currentTime.isBefore(morningEventDateTo) && currentTime.isAfter(morningEventDateFrom)) {
             return looseGold / 2;
         }
 
-        if (eveningEventDateFrom.isAfter(currentTime) || eveningEventDateTo.isBefore(currentTime)) {
+        if (currentTime.isBefore(eveningEventDateTo) && currentTime.isAfter(eveningEventDateFrom)) {
             return looseGold * 2;
         }
 
@@ -66,11 +73,13 @@ public class LastStepFizzBuzzGameImpl implements LastStepFizzBuzzGame {
     }
 
     private double calculateEarnMoney(LocalTime currentTime) {
-        if (morningEventDateFrom.isAfter(currentTime) || morningEventDateTo.isBefore(currentTime)) {
+        Assert.notNull(currentTime, "Current Time Cannot Be Null!");
+
+        if (currentTime.isBefore(morningEventDateTo) && currentTime.isAfter(morningEventDateFrom)) {
             return victoryGold * 2;
         }
 
-        if (eveningEventDateFrom.isAfter(currentTime) || eveningEventDateTo.isBefore(currentTime)) {
+        if (currentTime.isBefore(eveningEventDateTo) && currentTime.isAfter(eveningEventDateFrom)) {
             return victoryGold * 1.5;
         }
 
@@ -79,6 +88,11 @@ public class LastStepFizzBuzzGameImpl implements LastStepFizzBuzzGame {
 
     private boolean isSuccess(int multiplyNumber, String userInput) {
         return playGame(multiplyNumber).equals(userInput);
+    }
+
+    private void checkEnoughMoneyToPlayGame(User player) {
+        if (player.getGold() <= -10000)
+            throw new IllegalArgumentException("골드가 부족합니다. 충전 후 이용해주시기 바랍니다.");
     }
 
     private boolean isMultipleOfThree(int number) {

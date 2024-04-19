@@ -18,7 +18,8 @@ class InvalidUserFizzBuzzGameTest {
         User player = new User(3, true);
 
         // when
-        AbstractThrowableAssert<?, ? extends Throwable> result = assertThatThrownBy(() -> invalidUserGame.playGame(3, player));
+        AbstractThrowableAssert<?, ? extends Throwable> result =
+                assertThatThrownBy(() -> invalidUserGame.playGame(3, player));
 
         // then
         result.isInstanceOf(IllegalArgumentException.class)

@@ -4,10 +4,7 @@ package com.example.study.step3;
 public class InvalidUserFizzBuzzGameImpl implements InvalidUserFizzBuzzGame {
     @Override
     public String playGame(int number, User player) {
-
-        if (isInvalidUser(player))
-            throw new IllegalArgumentException("부정행위로 영구 정지 된 계정입니다.");
-
+        checkInvalidUser(player);
         checkInvalidValue(number, player);
 
         if (isMultipleOfThreeAndFive(number)) {
@@ -33,8 +30,9 @@ public class InvalidUserFizzBuzzGameImpl implements InvalidUserFizzBuzzGame {
         }
     }
 
-    private boolean isInvalidUser(User player) {
-        return player.isIllegalBannedUser();
+    private void checkInvalidUser(User player) {
+        if (player.isIllegalBannedUser())
+            throw new IllegalArgumentException("부정행위로 영구 정지 된 계정입니다.");
     }
 
     private boolean isMultipleOfThree(int number) {
