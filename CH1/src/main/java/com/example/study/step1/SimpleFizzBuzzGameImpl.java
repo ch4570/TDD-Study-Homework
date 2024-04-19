@@ -1,6 +1,6 @@
 package com.example.study.step1;
 
-public class FizzBuzzGameImpl implements FizzBuzzGame {
+public class SimpleFizzBuzzGameImpl implements SimpleFizzBuzzGame {
     @Override
     public String playGame(int number) {
 

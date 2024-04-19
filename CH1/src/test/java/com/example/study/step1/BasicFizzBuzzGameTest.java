@@ -3,11 +3,32 @@ package com.example.study.step1;
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
-class FizzBuzzGameTest {
+class BasicFizzBuzzGameTest {
 
-    private final FizzBuzzGame fizzBuzzGame = new FizzBuzzGameImpl();
+    private final SimpleFizzBuzzGame fizzBuzzGame = new SimpleFizzBuzzGameImpl();
+
+    @Test
+    @DisplayName("SimpleFizzBuzzGame Bad Test Case")
+    void badTestCase() {
+        // given
+        int multipleOfThreeInput = 9;
+        int multipleOfFiveInput = 10;
+        int multipleOfThreeAndFiveInput = 30;
+        int failInput = 77;
+
+        // when
+        String multipleOfThreeResult = fizzBuzzGame.playGame(multipleOfThreeInput);
+        String multipleOfFiveResult = fizzBuzzGame.playGame(multipleOfFiveInput);
+        String multipleOfThreeAndFiveResult = fizzBuzzGame.playGame(multipleOfThreeAndFiveInput);
+        String failResult = fizzBuzzGame.playGame(failInput);
+
+        // then
+        assertThat(multipleOfThreeResult).isEqualTo("Fizz");
+        assertThat(multipleOfFiveResult).isEqualTo("Buzz");
+        assertThat(multipleOfThreeAndFiveResult).isEqualTo("FizzBuzz");
+        assertThat(failResult).isEqualTo("Fail");
+    }
 
     @Test
     @DisplayName("FizzBuzzGame은 입력 한 값이 3의 배수일 경우 Fizz가 출력된다.")
@@ -60,5 +81,4 @@ class FizzBuzzGameTest {
         // then
         assertThat(result).isEqualTo("Fail");
     }
-
 }
