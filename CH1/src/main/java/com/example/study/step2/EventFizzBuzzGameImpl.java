@@ -28,7 +28,7 @@ public class EventFizzBuzzGameImpl implements EventFizzBuzzGame {
     @Override
     public String playGame(int number, String[] userInputs) {
         for (String userInput : userInputs) {
-            if (isSuccess(generator.generateValue(), userInput)) {
+            if (isSuccess(generator.generateValue() * number, userInput)) {
                 return "Congratulations!";
             }
         }
