@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,12 +27,16 @@ class RegisterMemberServiceTest {
     @Autowired
     private TestUtil testUtil;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Test
     @DisplayName("관리자는 회원을 생성할 수 있어야 한다.")
     void registerTest() {
         // given
         String id = "mb1";
         String name = "궁햄";
+        String password = "1234";
         RegisterMemberCommand command = testUtil.createRegisterMemberCommand(id, "1234", name);
 
         // when
@@ -42,6 +47,7 @@ class RegisterMemberServiceTest {
         // then
         assertThat(member.getMemberId()).isEqualTo(memberId);
         assertThat(member.getName()).isEqualTo(name);
+        assertThat(passwordEncoder.matches(password, member.getPassword())).isTrue();
     }
 
     @Test
@@ -60,5 +66,4 @@ class RegisterMemberServiceTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이미 가입된 ID 입니다.");
     }
-
 }
