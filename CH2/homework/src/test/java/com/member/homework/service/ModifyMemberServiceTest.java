@@ -49,4 +49,22 @@ class ModifyMemberServiceTest {
 
     }
 
+
+    @Test
+    @DisplayName("사용자가 중복된 ID로 회원 정보를 수정하려고 시도하면 수정이 실패해야 한다.")
+    void useDuplicateIdForModifyMemberTest() {
+        // given
+        Long memberId = testUtil.createMember("mb1", "1234", "MEMBER", "궁햄");
+
+        ModifyMemberCommand command = testUtil.createModifyMemberCommand("mb1", "1236", "궁햄2");
+
+        // when -> then
+        Assertions.assertThatThrownBy(() -> modifyMemberService.modifyMember(memberId, command))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("중복된 ID로 정보 변경은 불가능합니다.");
+
+    }
+
+
+
 }

@@ -18,7 +18,7 @@ public class ModifyMemberService {
 
     public void modifyMember(Long memberId, ModifyMemberCommand command) {
         if (memberRepository.existsMemberById(command.id())) {
-            throw new IllegalArgumentException("중복된 ID 입니다.");
+            throw new IllegalArgumentException("중복된 ID로 정보 변경은 불가능합니다.");
         }
 
         Member findMember = memberRepository.findById(memberId)
