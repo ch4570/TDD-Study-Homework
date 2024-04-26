@@ -18,10 +18,13 @@ public class AdminLoginService {
         Member findMember = memberRepository.findById(command.id())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
 
-        if (!passwordEncoder.matches(command.password(), findMember.getPassword())) {
-            throw new IllegalArgumentException("아이디 또는 비밀번호가 다릅니다.");
-        }
+        checkPassword(command.password(), findMember.getPassword());
+        checkIsAdmin(findMember);
 
+        return "jwttoken";
+    }
+
+    private static void checkIsAdmin(Member findMember) {
         boolean isAdmin = findMember.getMemberRoles()
                 .stream()
                 .anyMatch(role -> role.getRole().getRoleName().equals("ADMIN"));
@@ -29,7 +32,11 @@ public class AdminLoginService {
         if (!isAdmin) {
             throw new IllegalArgumentException("관리자 권한이 없습니다. 관리자 페이지에 진입할 수 없습니다.");
         }
+    }
 
-        return "jwttoken";
+    private void checkPassword(String rawPassword, String encodedPassword) {
+        if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
+            throw new IllegalArgumentException("아이디 또는 비밀번호가 다릅니다.");
+        }
     }
 }

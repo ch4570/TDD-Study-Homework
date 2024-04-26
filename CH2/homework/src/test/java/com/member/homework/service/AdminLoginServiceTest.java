@@ -40,16 +40,10 @@ class AdminLoginServiceTest {
     @DisplayName("관리자 권한이 있는 사용자는 로그인에 성공해야 한다.")
     void loginTest() {
         // given
-        MemberRole memberRole = MemberRole.of();
-        memberRoleRepository.save(memberRole);
+        String id = "mb1";
+        String password = "1234";
 
-        Role role = Role.of("ADMIN");
-        role.setMemberRole(memberRole);
-        roleRepository.save(role);
-
-        Member member = Member.of("mb1", passwordEncoder.encode("1234"));
-        member.setMemberRole(memberRole);
-        memberRepository.save(member);
+        createAdminMember(id, password);
         LoginUserCommand command = new LoginUserCommand("mb1", "1234");
 
         // when
@@ -57,5 +51,18 @@ class AdminLoginServiceTest {
 
         // then
         assertThat(result).isEqualTo("jwttoken");
+    }
+
+    private void createAdminMember(String id, String password) {
+        MemberRole memberRole = MemberRole.of();
+        memberRoleRepository.save(memberRole);
+
+        Role role = Role.of("ADMIN");
+        role.setMemberRole(memberRole);
+        roleRepository.save(role);
+
+        Member member = Member.of(id, passwordEncoder.encode(password));
+        member.setMemberRole(memberRole);
+        memberRepository.save(member);
     }
 }
