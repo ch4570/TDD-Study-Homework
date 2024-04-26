@@ -33,7 +33,7 @@ class MemberRepositoryTest {
         List<Member> memberList = memberRepository.findAll();
 
         // then
-        assertThat(memberList)
+        assertThat(memberList).hasSize(3)
                 .extracting("id", "password", "name")
                 .containsExactlyInAnyOrder(
                         tuple("member1", "1234", "01"),
