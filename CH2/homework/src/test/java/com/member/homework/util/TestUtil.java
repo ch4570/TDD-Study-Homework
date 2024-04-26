@@ -30,7 +30,7 @@ public class TestUtil {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void createMember(String id, String password, String roleName, String name) {
+    public Long createMember(String id, String password, String roleName, String name) {
         MemberRole memberRole = MemberRole.of();
         memberRoleRepository.save(memberRole);
 
@@ -40,7 +40,7 @@ public class TestUtil {
 
         Member member = Member.of(id, passwordEncoder.encode(password), name);
         member.setMemberRole(memberRole);
-        memberRepository.save(member);
+        return memberRepository.save(member).getMemberId();
     }
 
     public void saveAllMembers(List<Member> memberList) {

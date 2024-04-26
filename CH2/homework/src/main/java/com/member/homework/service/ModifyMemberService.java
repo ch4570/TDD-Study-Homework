@@ -1,7 +1,9 @@
 package com.member.homework.service;
 
+import com.member.homework.domain.Member;
 import com.member.homework.dto.request.ModifyMemberCommand;
 import com.member.homework.repository.MemberRepository;
+import com.member.homework.util.PasswordUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,9 +14,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class ModifyMemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordUtil passwordUtil;
 
-    public void modifyMember(ModifyMemberCommand command) {
+    public void modifyMember(Long memberId, ModifyMemberCommand command) {
+        if (memberRepository.existsMemberById(command.id())) {
+            throw new IllegalArgumentException("중복된 ID 입니다.");
+        }
 
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원의 정보는 수정할 수 없습니다."));
+
+
+        findMember.updateMember(command.id(),
+                passwordUtil.encodePassword(command.password()), command.name());
     }
 
 }
