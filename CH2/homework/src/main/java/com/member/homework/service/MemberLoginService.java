@@ -1,9 +1,10 @@
 package com.member.homework.service;
 
+import com.member.homework.domain.Member;
 import com.member.homework.dto.request.LoginMemberCommand;
 import com.member.homework.repository.MemberRepository;
+import com.member.homework.util.PasswordUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,9 +12,13 @@ import org.springframework.stereotype.Service;
 public class MemberLoginService {
 
     private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordUtil passwordUtil;
 
     public String login(LoginMemberCommand command) {
-        return "";
+        Member member = memberRepository.findById(command.id())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+
+        passwordUtil.checkPassword(command.password(), member.getPassword());
+        return "jwttoken";
     }
 }
