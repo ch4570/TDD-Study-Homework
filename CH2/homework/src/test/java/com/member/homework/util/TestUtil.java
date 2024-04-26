@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class TestUtil {
 
@@ -36,5 +38,9 @@ public class TestUtil {
         Member member = Member.of(id, passwordEncoder.encode(password));
         member.setMemberRole(memberRole);
         memberRepository.save(member);
+    }
+
+    public void saveAllMembers(List<Member> memberList) {
+        memberRepository.saveAll(memberList);
     }
 }
