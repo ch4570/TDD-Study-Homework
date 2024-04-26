@@ -2,6 +2,7 @@ package com.member.homework.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,4 +23,15 @@ public class Role extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "role", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<MemberRole> memberRoles = new ArrayList<>();
+
+    @Builder
+    private Role(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public static Role of(String roleName) {
+        return Role.builder()
+                .roleName(roleName)
+                .build();
+    }
 }
