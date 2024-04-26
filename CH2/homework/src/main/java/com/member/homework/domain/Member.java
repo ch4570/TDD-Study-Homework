@@ -33,6 +33,11 @@ public class Member extends BaseTimeEntity {
         this.password = password;
     }
 
+    public void setMemberRole(MemberRole memberRole) {
+        this.memberRoles.add(memberRole);
+        memberRole.setMember(this);
+    }
+
     public static Member of(String id, String password) {
         return Member.builder()
                 .id(id)

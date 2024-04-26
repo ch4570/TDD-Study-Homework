@@ -1,5 +1,6 @@
 package com.member.homework.service;
 
+import com.member.homework.domain.Member;
 import com.member.homework.dto.request.LoginUserCommand;
 import com.member.homework.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,21 @@ public class AdminLoginService {
     private final PasswordEncoder passwordEncoder;
 
     public String login(LoginUserCommand command) {
-        return "";
+        Member findMember = memberRepository.findById(command.id())
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+
+        if (!passwordEncoder.matches(command.password(), findMember.getPassword())) {
+            throw new IllegalArgumentException("아이디 또는 비밀번호가 다릅니다.");
+        }
+
+        boolean isAdmin = findMember.getMemberRoles()
+                .stream()
+                .anyMatch(role -> role.getRole().getRoleName().equals("ADMIN"));
+
+        if (!isAdmin) {
+            throw new IllegalArgumentException("관리자 권한이 없습니다. 관리자 페이지에 진입할 수 없습니다.");
+        }
+
+        return "jwttoken";
     }
 }

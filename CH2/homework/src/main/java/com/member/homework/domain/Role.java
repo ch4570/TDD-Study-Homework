@@ -29,6 +29,11 @@ public class Role extends BaseTimeEntity {
         this.roleName = roleName;
     }
 
+    public void setMemberRole(MemberRole memberRole) {
+        this.getMemberRoles().add(memberRole);
+        memberRole.setRole(this);
+    }
+
     public static Role of(String roleName) {
         return Role.builder()
                 .roleName(roleName)

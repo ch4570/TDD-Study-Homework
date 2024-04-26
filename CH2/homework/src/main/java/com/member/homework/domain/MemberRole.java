@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.parameters.P;
 
 @Entity
 @Getter
@@ -21,4 +22,16 @@ public class MemberRole extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id")
     private Role role;
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public static MemberRole of() {
+        return new MemberRole();
+    }
 }
