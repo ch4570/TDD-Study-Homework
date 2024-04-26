@@ -1,6 +1,8 @@
 package com.member.homework.service;
 
 import com.member.homework.domain.Member;
+import com.member.homework.domain.MemberRole;
+import com.member.homework.domain.Role;
 import com.member.homework.dto.request.GrantRoleCommand;
 import com.member.homework.repository.MemberRepository;
 import com.member.homework.repository.MemberRoleRepository;
@@ -21,6 +23,20 @@ public class GrantRoleService {
     private final MemberRepository memberRepository;
 
     public void grantRoleToMember(Long memberId, List<GrantRoleCommand> roleList) {
+        Member findMember = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원에게 권한을 부여할 수 없습니다."));
 
+
+        List<Role> findRoleList = roleRepository.findAllByRoleNameIn(
+                roleList.stream().map(GrantRoleCommand::role)
+                        .toList());
+
+        findRoleList.forEach(role -> {
+            MemberRole memberRole = MemberRole.of();
+            memberRoleRepository.save(memberRole);
+
+            role.setMemberRole(memberRole);
+            findMember.setMemberRole(memberRole);
+        });
     }
 }
