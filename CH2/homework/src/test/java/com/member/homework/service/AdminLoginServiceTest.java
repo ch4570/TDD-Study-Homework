@@ -28,7 +28,7 @@ class AdminLoginServiceTest {
         String password = "1234";
 
         testUtil.createMember(id, password, "ADMIN", "궁햄");
-        LoginMemberCommand command = new LoginMemberCommand("mb1", "1234");
+        LoginMemberCommand command = testUtil.createLoginMemberCommand("mb1", "1234");
 
         // when
         String result = adminLoginService.login(command);
@@ -45,7 +45,7 @@ class AdminLoginServiceTest {
         String password = "1234";
 
         testUtil.createMember(id, password, "MEMBER", "궁햄");
-        LoginMemberCommand command = new LoginMemberCommand(id, password);
+        LoginMemberCommand command = testUtil.createLoginMemberCommand(id, password);
 
         // when -> then
         assertThatThrownBy(() -> adminLoginService.login(command))
@@ -60,7 +60,7 @@ class AdminLoginServiceTest {
         String id = "mb1";
 
         testUtil.createMember(id, "1234", "MEMBER", "궁햄");
-        LoginMemberCommand command = new LoginMemberCommand(id, "1233");
+        LoginMemberCommand command = testUtil.createLoginMemberCommand(id, "1233");
 
         // when -> then
         assertThatThrownBy(() -> adminLoginService.login(command))
@@ -75,13 +75,11 @@ class AdminLoginServiceTest {
         String password = "1234";
 
         testUtil.createMember("mb1", password, "MEMBER", "궁햄2");
-        LoginMemberCommand command = new LoginMemberCommand("궁햄", "1234");
+        LoginMemberCommand command = testUtil.createLoginMemberCommand("궁햄", "1234");
 
         // when -> then
         assertThatThrownBy(() -> adminLoginService.login(command))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("존재하지 않는 회원입니다.");
     }
-
-
 }
