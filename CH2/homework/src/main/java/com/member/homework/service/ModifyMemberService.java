@@ -17,9 +17,7 @@ public class ModifyMemberService {
     private final PasswordUtil passwordUtil;
 
     public void modifyMember(Long memberId, ModifyMemberCommand command) {
-        if (memberRepository.existsMemberById(command.id())) {
-            throw new IllegalArgumentException("중복된 ID로 정보 변경은 불가능합니다.");
-        }
+        checkDuplicateId(command.id());
 
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원의 정보는 수정할 수 없습니다."));
@@ -27,6 +25,12 @@ public class ModifyMemberService {
 
         findMember.updateMember(command.id(),
                 passwordUtil.encodePassword(command.password()), command.name());
+    }
+
+    private void checkDuplicateId(String id) {
+        if (memberRepository.existsMemberById(id)) {
+            throw new IllegalArgumentException("중복된 ID로 정보 변경은 불가능합니다.");
+        }
     }
 
 }
