@@ -1,17 +1,11 @@
 package com.member.homework.service;
 
-import com.member.homework.domain.Member;
-import com.member.homework.domain.MemberRole;
-import com.member.homework.domain.Role;
 import com.member.homework.dto.request.LoginMemberCommand;
-import com.member.homework.repository.MemberRepository;
-import com.member.homework.repository.MemberRoleRepository;
-import com.member.homework.repository.RoleRepository;
+import com.member.homework.util.TestUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.*;
@@ -24,16 +18,7 @@ class AdminLoginServiceTest {
     private AdminLoginService adminLoginService;
 
     @Autowired
-    private MemberRepository memberRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private MemberRoleRepository memberRoleRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private TestUtil testUtil;
 
     @Test
     @DisplayName("관리자 권한이 있는 사용자는 로그인에 성공해야 한다.")
@@ -42,7 +27,7 @@ class AdminLoginServiceTest {
         String id = "mb1";
         String password = "1234";
 
-        createMember(id, password, "ADMIN");
+        testUtil.createMember(id, password, "ADMIN");
         LoginMemberCommand command = new LoginMemberCommand("mb1", "1234");
 
         // when
@@ -59,7 +44,7 @@ class AdminLoginServiceTest {
         String id = "mb1";
         String password = "1234";
 
-        createMember(id, password, "MEMBER");
+        testUtil.createMember(id, password, "MEMBER");
         LoginMemberCommand command = new LoginMemberCommand(id, password);
 
         // when -> then
@@ -74,7 +59,7 @@ class AdminLoginServiceTest {
         // given
         String id = "mb1";
 
-        createMember(id, "1234", "MEMBER");
+        testUtil.createMember(id, "1234", "MEMBER");
         LoginMemberCommand command = new LoginMemberCommand(id, "1233");
 
         // when -> then
@@ -89,7 +74,7 @@ class AdminLoginServiceTest {
         // given
         String password = "1234";
 
-        createMember("mb1", password, "MEMBER");
+        testUtil.createMember("mb1", password, "MEMBER");
         LoginMemberCommand command = new LoginMemberCommand("궁햄", "1234");
 
         // when -> then
@@ -98,16 +83,5 @@ class AdminLoginServiceTest {
                 .hasMessage("존재하지 않는 회원입니다.");
     }
 
-    private void createMember(String id, String password, String roleName) {
-        MemberRole memberRole = MemberRole.of();
-        memberRoleRepository.save(memberRole);
 
-        Role role = Role.of(roleName);
-        role.setMemberRole(memberRole);
-        roleRepository.save(role);
-
-        Member member = Member.of(id, passwordEncoder.encode(password));
-        member.setMemberRole(memberRole);
-        memberRepository.save(member);
-    }
 }
