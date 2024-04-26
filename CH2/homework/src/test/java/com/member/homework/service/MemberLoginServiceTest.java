@@ -26,7 +26,7 @@ class MemberLoginServiceTest {
     @DisplayName("사용자는 게시판 서비스에 로그인 할 수 있어야 한다.")
     void loginTest() {
         // given
-        testUtil.createMember("mb1", "1234", "MEMBER");
+        testUtil.createMember("mb1", "1234", "MEMBER", "궁햄");
         LoginMemberCommand command = new LoginMemberCommand("mb1", "1234");
 
         // when
@@ -40,7 +40,7 @@ class MemberLoginServiceTest {
     @DisplayName("로그인 시도한 아이디가 존재하지 않는 아이디라면 로그인이 실패한다.")
     void isNotExistsMemberTest() {
         // given
-        testUtil.createMember("mb1", "1234", "MEMBER");
+        testUtil.createMember("mb1", "1234", "MEMBER", "궁햄");
         LoginMemberCommand command = new LoginMemberCommand("mb2", "1234");
 
         // when -> then

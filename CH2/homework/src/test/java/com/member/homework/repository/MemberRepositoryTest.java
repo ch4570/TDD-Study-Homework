@@ -24,9 +24,9 @@ class MemberRepositoryTest {
         // given
         memberRepository.saveAll(
                 List.of(
-                   Member.of("member1", "1234"),
-                   Member.of("member2", "5678"),
-                   Member.of("member3", "1111")
+                   Member.of("member1", "1234", "01"),
+                   Member.of("member2", "5678", "02"),
+                   Member.of("member3", "1111", "03")
                 ));
 
         // when
@@ -34,11 +34,11 @@ class MemberRepositoryTest {
 
         // then
         assertThat(memberList)
-                .extracting("id", "password")
+                .extracting("id", "password", "name")
                 .containsExactlyInAnyOrder(
-                        tuple("member1", "1234"),
-                        tuple("member2", "5678"),
-                        tuple("member3", "1111")
+                        tuple("member1", "1234", "01"),
+                        tuple("member2", "5678", "02"),
+                        tuple("member3", "1111", "03")
                 );
     }
 
@@ -47,7 +47,7 @@ class MemberRepositoryTest {
     void findByIdTest() {
         // given
         String id = "javajunsuk123";
-        Member member = Member.of(id, "devcamp");
+        Member member = Member.of(id, "devcamp", "01");
         memberRepository.save(member);
 
         // when
@@ -62,7 +62,7 @@ class MemberRepositoryTest {
     @DisplayName("회원의 ID로 회원 존재 여부를 알 수 있어야 한다.")
     void existsMemberById() {
         // given
-        memberRepository.save(Member.of("mb1", "1234"));
+        memberRepository.save(Member.of("mb1", "1234", "궁햄"));
 
         // when
         boolean successResult = memberRepository.existsMemberById("mb1");
@@ -77,7 +77,7 @@ class MemberRepositoryTest {
     @DisplayName("회원의 고유 ID(PK)로 회원을 삭제할 수 있어야 한다.")
     void deleteById() {
         // given
-        Member member = memberRepository.save(Member.of("mb1", "1234"));
+        Member member = memberRepository.save(Member.of("mb1", "1234", "궁햄"));
 
         // when
         memberRepository.deleteById(member.getMemberId());

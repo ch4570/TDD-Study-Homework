@@ -29,9 +29,9 @@ class LoadMemberServiceTest {
     void loadAllMembersTest() {
         // given
         List<Member> memberList = List.of(
-                Member.of("mb1", "1234"),
-                Member.of("mb2", "5678"),
-                Member.of("궁햄", "112")
+                Member.of("mb1", "1234", "01"),
+                Member.of("mb2", "5678", "02"),
+                Member.of("궁햄", "112", "03")
         );
 
         testUtil.saveAllMembers(memberList);
@@ -41,11 +41,11 @@ class LoadMemberServiceTest {
 
         // then
         assertThat(findMemberList).hasSize(3)
-                .extracting("id", "password")
+                .extracting("id", "password", "name")
                 .containsExactlyInAnyOrder(
-                    tuple("mb1", "1234"),
-                    tuple("mb2", "5678"),
-                    tuple("궁햄", "112")
+                    tuple("mb1", "1234", "01"),
+                    tuple("mb2", "5678", "02"),
+                    tuple("궁햄", "112", "03")
                 );
     }
 }

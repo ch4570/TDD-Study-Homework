@@ -27,7 +27,7 @@ class AdminLoginServiceTest {
         String id = "mb1";
         String password = "1234";
 
-        testUtil.createMember(id, password, "ADMIN");
+        testUtil.createMember(id, password, "ADMIN", "궁햄");
         LoginMemberCommand command = new LoginMemberCommand("mb1", "1234");
 
         // when
@@ -44,7 +44,7 @@ class AdminLoginServiceTest {
         String id = "mb1";
         String password = "1234";
 
-        testUtil.createMember(id, password, "MEMBER");
+        testUtil.createMember(id, password, "MEMBER", "궁햄");
         LoginMemberCommand command = new LoginMemberCommand(id, password);
 
         // when -> then
@@ -59,7 +59,7 @@ class AdminLoginServiceTest {
         // given
         String id = "mb1";
 
-        testUtil.createMember(id, "1234", "MEMBER");
+        testUtil.createMember(id, "1234", "MEMBER", "궁햄");
         LoginMemberCommand command = new LoginMemberCommand(id, "1233");
 
         // when -> then
@@ -74,7 +74,7 @@ class AdminLoginServiceTest {
         // given
         String password = "1234";
 
-        testUtil.createMember("mb1", password, "MEMBER");
+        testUtil.createMember("mb1", password, "MEMBER", "궁햄2");
         LoginMemberCommand command = new LoginMemberCommand("궁햄", "1234");
 
         // when -> then

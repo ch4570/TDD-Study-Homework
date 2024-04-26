@@ -24,13 +24,17 @@ public class Member extends BaseTimeEntity {
     @Column(name = "password", columnDefinition = "VARCHAR(200)")
     private String password;
 
+    @Column(name = "name", columnDefinition = "VARCHAR(30)")
+    private String name;
+
     @OneToMany(mappedBy = "member", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<MemberRole> memberRoles = new ArrayList<>();
 
     @Builder
-    private Member(String id, String password) {
+    private Member(String id, String password, String name) {
         this.id = id;
         this.password = password;
+        this.name = name;
     }
 
     public void setMemberRole(MemberRole memberRole) {
@@ -38,9 +42,10 @@ public class Member extends BaseTimeEntity {
         memberRole.setMember(this);
     }
 
-    public static Member of(String id, String password) {
+    public static Member of(String id, String password, String name) {
         return Member.builder()
                 .id(id)
+                .name(name)
                 .password(password)
                 .build();
     }
