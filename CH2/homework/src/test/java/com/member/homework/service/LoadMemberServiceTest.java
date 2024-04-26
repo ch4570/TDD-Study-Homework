@@ -37,7 +37,7 @@ class LoadMemberServiceTest {
         testUtil.saveAllMembers(memberList);
 
         // when
-        List<Member> findMemberList = loadMemberService.LoadAllMembers();
+        List<Member> findMemberList = loadMemberService.loadAllMembers();
 
         // then
         assertThat(findMemberList).hasSize(3)

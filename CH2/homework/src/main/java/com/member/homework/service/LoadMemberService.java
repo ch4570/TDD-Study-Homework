@@ -13,7 +13,7 @@ public class LoadMemberService {
 
     private final MemberRepository memberRepository;
 
-    public List<Member> LoadAllMembers() {
-        return List.of();
+    public List<Member> loadAllMembers() {
+        return memberRepository.findAll();
     }
 }
