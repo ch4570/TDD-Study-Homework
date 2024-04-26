@@ -1,5 +1,6 @@
 package com.member.homework.domain;
 
+import com.member.homework.dto.request.ModifyMemberCommand;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -32,6 +33,12 @@ public class Member extends BaseTimeEntity {
 
     @Builder
     private Member(String id, String password, String name) {
+        this.id = id;
+        this.password = password;
+        this.name = name;
+    }
+
+    public void updateMember(String id, String password, String name) {
         this.id = id;
         this.password = password;
         this.name = name;

@@ -4,6 +4,7 @@ import com.member.homework.domain.Member;
 import com.member.homework.domain.MemberRole;
 import com.member.homework.domain.Role;
 import com.member.homework.dto.request.LoginMemberCommand;
+import com.member.homework.dto.request.ModifyMemberCommand;
 import com.member.homework.dto.request.RegisterMemberCommand;
 import com.member.homework.repository.MemberRepository;
 import com.member.homework.repository.MemberRoleRepository;
@@ -52,5 +53,9 @@ public class TestUtil {
 
     public RegisterMemberCommand createRegisterMemberCommand(String id, String password, String name) {
         return new RegisterMemberCommand(id, password, name);
+    }
+
+    public ModifyMemberCommand createModifyMemberCommand(String id, String password, String name) {
+        return new ModifyMemberCommand(id, password, name);
     }
 }
