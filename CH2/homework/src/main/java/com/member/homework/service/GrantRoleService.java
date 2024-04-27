@@ -31,6 +31,10 @@ public class GrantRoleService {
                 roleList.stream().map(GrantRoleCommand::role)
                         .toList());
 
+        if (roleList.size() != findRoleList.size()) {
+            throw new IllegalArgumentException("유효하지 않은 권한 부여 시도는 허용되지 않습니다.");
+        }
+
         findRoleList.forEach(role -> {
             MemberRole memberRole = MemberRole.of();
             memberRoleRepository.save(memberRole);
