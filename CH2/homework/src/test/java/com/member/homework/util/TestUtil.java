@@ -62,4 +62,8 @@ public class TestUtil {
     public ModifyMemberCommand createModifyMemberCommand(String id, String password, String name) {
         return new ModifyMemberCommand(id, password, name);
     }
+
+    public boolean matches(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
+    }
 }
