@@ -55,4 +55,18 @@ class GrantRoleServiceTest {
                 .contains("MEMBER", "SUPER_ADMIN", "ADMIN");
 
     }
+
+    @Test
+    @DisplayName("부여하려는 권한 리스트 중, 유효하지 않은 권한 부여시 권한 부여에 실패해야 한다.")
+    void grantInvalidRoleToMemberTest() {
+        // given
+        Long memberId = testUtil.createMember("mb1", "1234", "ADMIN", "궁햄112");
+        testUtil.createRole("SUPER_ADMIN");
+
+        // when -> then
+        assertThatThrownBy(() -> grantRoleService.grantRoleToMember(memberId,
+                List.of(new GrantRoleCommand("CEO")))
+        ).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("유효하지 않은 권한 부여 시도는 허용되지 않습니다.");
+    }
 }

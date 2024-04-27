@@ -43,8 +43,8 @@ public class TestUtil {
         return memberRepository.save(member).getMemberId();
     }
 
-    public Role createRole(String roleName) {
-        return roleRepository.save(Role.of(roleName));
+    public void createRole(String roleName) {
+        roleRepository.save(Role.of(roleName));
     }
 
     public void saveAllMembers(List<Member> memberList) {
