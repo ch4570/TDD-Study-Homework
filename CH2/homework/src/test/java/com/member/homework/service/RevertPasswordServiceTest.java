@@ -37,8 +37,18 @@ class RevertPasswordServiceTest {
 
         // then
         assertThat(testUtil.matches(revertedPassword, findMember.getPassword())).isTrue();
+    }
 
+    @Test
+    @DisplayName("존재하지 않는 사용자의 비밀번호는 초기화 할 수 없다.")
+    void invalidUserPasswordRevertTest() {
+        // given
+        Long memberId = testUtil.createMember("mb1", "1234", "ADMIN", "궁햄112");
 
+        // when -> then
+        assertThatThrownBy(() -> revertPasswordService.revertPassword(memberId + 1))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("존재하지 않는 회원의 비밀번호는 초기화 할 수 없습니다.");
     }
 
 }

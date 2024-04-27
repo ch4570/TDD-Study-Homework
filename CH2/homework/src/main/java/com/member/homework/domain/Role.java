@@ -21,7 +21,7 @@ public class Role extends BaseTimeEntity {
     @Column(name = "role_name", columnDefinition = "VARCHAR(30)")
     private String roleName;
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "role", cascade = CascadeType.REMOVE)
     private List<MemberRole> memberRoles = new ArrayList<>();
 
     @Builder

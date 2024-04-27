@@ -51,4 +51,16 @@ class RemoveMemberServiceTest {
 
     }
 
+    @Test
+    @DisplayName("존재하지 않는 회원의 삭제 시도는 실패해야 한다.")
+    void notExistsMemberRemoveTest() {
+        // given
+        Long memberId = testUtil.createMember("mb1", "1234", "ADMIN", "궁햄112");
+
+        // when -> then
+        assertThatThrownBy(() -> removeMemberService.removeMember(memberId + 1))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("존재하지 않는 회원은 삭제할 수 없습니다.");
+    }
+
 }
